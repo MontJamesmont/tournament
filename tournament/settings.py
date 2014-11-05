@@ -70,9 +70,9 @@ INSTALLED_APPS = (
     'karatekyokushin',
 )
 
-ROOT_URLCONF = 'system.urls'
+ROOT_URLCONF = 'tournament.urls'
 
-WSGI_APPLICATION = 'system.wsgi.application'
+WSGI_APPLICATION = 'tournament.wsgi.application'
 
 
 # Database
