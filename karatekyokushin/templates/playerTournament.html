@@ -9,7 +9,7 @@
 	    <br/>
 	    Aktualna drużyna: <a href="{% url 'team' team.id %}"> {{ team.name }} </a>
 	    <br/> 
-	    Trener: <a href="{% url 'coach' coach.id %}"> {{ coach.name }} {{ coach.surname }} </a>
+	    Trener: {{ coach.name }} {{ coach.surname }}
 	    <br/>
 	    Aktualne turnieje zawodnika:
 	    <table class="table table-hover">

@@ -14,8 +14,8 @@ $(document).ready(function() {
 });
 </script>
 <form method="post" action="">
-            {% csrf_token %}
-            <table class="table" style="width: 10%">
+	{% csrf_token %}
+    <table class="table" style="width: 10%">
         <tr>
             <td><label>Nazwa</label>
             <td>{{ form.name }}</td>

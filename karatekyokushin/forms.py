@@ -18,9 +18,9 @@ from django.utils import dateformat
 class CreateTournamentForm(forms.ModelForm):
     class Meta:
         model = Tournament
-        fields= ('name', 'start', 'end')
+        fields= ('name', 'start', 'end', )
         widgets={
-            'start': forms.DateInput(attrs={'class': 'datepicker'}),
-            'end': forms.DateInput(attrs={'class': 'datepicker'}),
+            'start': forms.DateInput(format=('%d/%m/%Y'), attrs={'class': 'datepicker'}),
+            'end': forms.DateInput(format=('%d/%m/%Y'), attrs={'class': 'datepicker'})
         }
 

@@ -1,41 +1,65 @@
 from django.db import models
 
-# Create your models here.
+from karatekyokushin.models2 import *
 
-class Team(models.Model):
-    name = models.CharField(max_length=32)
+# Create your models here.
 
 class User(models.Model):
     login = models.CharField(max_length=32, unique=True)
     password = models.CharField(max_length=32)
     name = models.CharField(max_length=32)
     surname = models.CharField(max_length=32)
-    team_id = models.ForeignKey(Team, null=True)
-
-class Category(models.Model):
-    name=models.CharField(max_length=50)
+    
+    def __unicode__(self):
+        return self.name + " " + self.surname
 
 class Coach(models.Model):
     user_id = models.ForeignKey(User, null=True)
     name = models.CharField(max_length=32)
     surname = models.CharField(max_length=32)
-    team_id = models.ForeignKey(Team)
+    
+    def __unicode__(self):
+        return self.name + " " + self.surname
+    
+class Team(models.Model):
+    name = models.CharField(max_length=32)
+    coach = models.ForeignKey(Coach, null=True)
+    
+    def __unicode__(self):
+        return self.name
     
 class Player(models.Model):
     user_id = models.ForeignKey(User, null=True)
     name = models.CharField(max_length=32)
     surname = models.CharField(max_length=32)
-    team_id = models.ForeignKey(Team)
+    team_id = models.ForeignKey(Team, null=True)
+    acceptedbycoachteam = models.BooleanField()
+    acceptedbyplayer = models.BooleanField()
     
-class Manager(models.Model):
-    user_id = models.ForeignKey(User)
-
-
+    def __unicode__(self):
+        return self.name + " " + self.surname
+    
 class Tournament(models.Model):
     name = models.CharField(max_length=50)
     start = models.DateField()
     end = models.DateField()
-    manager = models.ForeignKey(Manager, null=True)
     coaches = models.ManyToManyField(Coach, verbose_name="lista trenerow", blank=True)
-    players = models.ManyToManyField(Player, verbose_name="lista graczy", blank=True)
-    categories = models.ManyToManyField(Category, verbose_name="lista kategorii", blank=True)
+    categories = models.ManyToManyField(models2.Category, verbose_name="lista kategorii", blank=True)
+    
+    def __unicode__(self):
+        return self.name + " " + self.start + " " + self.end
+
+class PlayerTournament(models.Model):
+    player_id = models.ForeignKey(Player)
+    tournament_id = models.ForeignKey(Tournament)
+    categories = models.ManyToManyField(models2.Category, verbose_name="lista kategorii zawodnika", blank=True)
+    acceptedbymanager = models.BooleanField()
+    acceptedbycoach = models.BooleanField()
+    
+    def __unicode__(self):
+        return self.player_id
+    
+class Manager(models.Model):
+    user_id = models.ForeignKey(User)
+    tournament = models.ForeignKey(Tournament)
+    

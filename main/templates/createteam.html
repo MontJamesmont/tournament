@@ -2,7 +2,7 @@
 
 {% block title %}Karate kyokushin{% endblock %}
 {% block header %}
-Tworzenie tunieju.
+Tworzenie drużyny
 {% endblock %}
 {% block content %}
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css"> 
@@ -14,19 +14,11 @@ $(document).ready(function() {
 });
 </script>
 <form method="post" action="">
-            {% csrf_token %}
-            <table class="table" style="width: 10%">
+    {% csrf_token %}
+	<table class="table" style="width: 10%">
         <tr>
-            <td><label>Nazwa</label>
+            <td><label>Podaj nazwę drużyny:</label>
             <td>{{ form.name }}</td>
-        </tr>
-        <tr>
-            <td><label>Data rozpoczęcia</label>
-            <td>{{ form.start }}</td>
-        </tr>
-        <tr>
-            <td><label>Data zakończenia</label>
-            <td>{{ form.end }}</td>
         </tr>
         <tr>
             <td>

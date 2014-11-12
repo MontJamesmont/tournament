@@ -12,6 +12,10 @@
                     class="glyphicon glyphicon-home"></span> Turniej</a>
             </div>
 			<ul class="nav navbar-nav">
+				<li>
+					{% if request.session.user %}	
+                		<a href="{% url 'user' %}">Twoje konto</a></li>
+                	{% endif %}
                 <li>
                 	<a href="{% url 'KarateKyokushinMain' %}">Karate Kyokushin</a></li>
                 

@@ -7,6 +7,15 @@
   </div>
   <div class="panel-body">
     <br/>
+    {% if request.session.user == manager.user_id.id%}
+    <div class="container-fluid">
+	   <ul class="nav navbar-nav">
+	   		<li>
+				<a href="{% url 'addPlayersToTournament' tournament.id %}">Dodaj zawodników</a>
+			</li>
+	  </ul>
+	</div>	
+    {% endif %}
     <table class="table table-hover">
 		<tr>
 			<th>Zawodnik</th>
@@ -16,12 +25,12 @@
 		{% for player in players %}
 		<tr>
 		    <td>
-		          {{ player.name }} {{ player.surname }}
+		          <a href="{% url 'player' player.id %}"> {{ player.name }} {{ player.surname }} </a>
 		    </td>
 		    <td>
 		         {% for team in teams %}
 		         	{% if team.id = player.team_id %}
-		         		{{team.name}}
+		         		<a href="{% url 'team' team.id %}"> {{ team.name }} </a>
 		         	{% endif %}
 		         {% endfor %}
 		    </td>

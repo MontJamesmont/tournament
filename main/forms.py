@@ -31,3 +31,8 @@ class UserFormSignIn(ModelForm):
             'password': forms.PasswordInput()
         }
         
+class CreateTeamForm(ModelForm):
+    class Meta:
+        model = Team
+        fields = ('name',)
+               
