@@ -1,6 +1,5 @@
 from django.db import models
 
-from karatekyokushin.models2 import *
 
 # Create your models here.
 
@@ -38,21 +37,32 @@ class Player(models.Model):
     
     def __unicode__(self):
         return self.name + " " + self.surname
+
+class Category(models.Model):
+    name=models.CharField(max_length=50)
+    
+    def __unicode__(self):
+        return self.name
     
 class Tournament(models.Model):
     name = models.CharField(max_length=50)
     start = models.DateField()
     end = models.DateField()
     coaches = models.ManyToManyField(Coach, verbose_name="lista trenerow", blank=True)
-    categories = models.ManyToManyField(models2.Category, verbose_name="lista kategorii", blank=True)
+    categories = models.ManyToManyField(Category, verbose_name="lista kategorii", blank=True)
     
     def __unicode__(self):
         return self.name + " " + self.start + " " + self.end
 
+class Category(models.Model):
+    name=models.CharField(max_length=50)
+    
+    def __unicode__(self):
+        return self.name
+
 class PlayerTournament(models.Model):
     player_id = models.ForeignKey(Player)
     tournament_id = models.ForeignKey(Tournament)
-    categories = models.ManyToManyField(models2.Category, verbose_name="lista kategorii zawodnika", blank=True)
     acceptedbymanager = models.BooleanField()
     acceptedbycoach = models.BooleanField()
     
