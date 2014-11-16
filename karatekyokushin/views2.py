@@ -108,3 +108,12 @@ def playerToTournamentAccept(request, playerT_id):
     p.tournament_id.coaches.add(Coach.objects.get(id = Team.objects.get(id= p.player_id.team_id.id).coach.id))
     return redirect('/user/')
 
+def deletePlayerTour(request, player_id, tournament_id):
+    player = Player.objects.get(id = player_id)
+    tournament = Tournament.objects.get(id = tournament_id)
+    coach = Coach.objects.get(id = Team.objects.get(id = player.team_id.id).coach.id)
+    tournament.coaches.remove(coach)
+    playerT = PlayerTournament.objects.get(player_id = player, tournament_id=tournament).delete()
+    return redirect('tournament', tournament_id = tournament.id)
+    
+    

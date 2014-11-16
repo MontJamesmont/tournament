@@ -76,8 +76,8 @@
                 <div class="panel-heading">Zaproszenie do drużyny: </div>
                 <div class="panel-body">
                     <ul>
-                    	{% if player %}
-                        		<li>{{ player.team_id.name }} <a href="{% url 'playerToTeamAccept' player.id %}"> Akceptuj </a></li>
+                    	{% if playerteam %}
+                        		<li>{{ playerteam.team_id.name }} <a href="{% url 'playerToTeamAccept' playerteam.id %}"> Akceptuj </a></li>
                     	{% endif%}
                     </ul>
                 </div>

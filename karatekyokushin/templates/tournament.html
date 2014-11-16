@@ -26,6 +26,9 @@
 		<tr>
 		    <td>
 		          <a href="{% url 'player' player.id %}"> {{ player.name }} {{ player.surname }} </a>
+		          	{% if request.session.user == manager.user_id.id%}
+		          		<a href="{% url 'deletePlayerTour' player.id tournament.id%}"> - </a>
+		          	{% endif %}
 		    </td>
 		    <td>
 		         {% for team in teams %}

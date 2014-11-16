@@ -1,6 +1,5 @@
 from django.db import models
 
-
 # Create your models here.
 
 class User(models.Model):
@@ -37,28 +36,15 @@ class Player(models.Model):
     
     def __unicode__(self):
         return self.name + " " + self.surname
-
-class Category(models.Model):
-    name=models.CharField(max_length=50)
-    
-    def __unicode__(self):
-        return self.name
     
 class Tournament(models.Model):
     name = models.CharField(max_length=50)
     start = models.DateField()
     end = models.DateField()
     coaches = models.ManyToManyField(Coach, verbose_name="lista trenerow", blank=True)
-    categories = models.ManyToManyField(Category, verbose_name="lista kategorii", blank=True)
-    
+
     def __unicode__(self):
         return self.name + " " + self.start + " " + self.end
-
-class Category(models.Model):
-    name=models.CharField(max_length=50)
-    
-    def __unicode__(self):
-        return self.name
 
 class PlayerTournament(models.Model):
     player_id = models.ForeignKey(Player)
