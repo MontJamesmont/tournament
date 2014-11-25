@@ -178,16 +178,36 @@ def enterForTournament(request, tournament_id, user_id):
         user = User.objects.get(id=user_id)
         coaches = Coach.objects.filter(user_id=user)
         players = list()
+        teams = list()
         for coach in coaches:
-            playersC = Player.objects.filter(team_id = Team.objects.get(coach = coach), acceptedbycoachteam=True, acceptedbyplayer=True)
+            team = Team.objects.get(coach = coach)
+            teamTrue = False
+            playersC = Player.objects.filter(team_id = team, acceptedbycoachteam=True, acceptedbyplayer=True)
             for playerC in playersC:
-                players.append(playerC)
-        for playerT in PlayerTournament.objects.filter(tournament_id=tournament):
-            if players.count(playerT.player_id)>0:
-                players.remove(playerT.player_id)
-                print players
-        context = RequestContext(request, {'tournament': tournament, 'players':players })
+                if PlayerTournament.objects.filter(tournament_id=tournament, player_id = playerC).count()==0:
+                    players.append(playerC)
+                    teamTrue = True
+            if teamTrue:
+                teams.append(team)
+        context = RequestContext(request, {'tournament': tournament, 'players':players, 'teams':teams })
         return HttpResponse(template.render(context))
     else: 
         return redirect('/signIn/')
     
+def enterAllPlayersToTournament(request, tournament_id, user_id):
+    tournament = Tournament.objects.get(id=tournament_id)
+    user = User.objects.get(id=user_id)
+    coaches = Coach.objects.filter(user_id=user)
+    for coach in coaches:
+        playersC = Player.objects.filter(team_id = Team.objects.get(coach = coach), acceptedbycoachteam=True, acceptedbyplayer=True)
+        for playerC in playersC:
+            if PlayerTournament.objects.filter(tournament_id=tournament, player_id = playerC).count()==0:
+                PlayerTournament.objects.create(player_id=playerC, tournament_id=tournament, acceptedbymanager=False, acceptedbycoach=True)
+    return redirect('/user/')
+def enterPlayersTeamTour(request, team_id, tournament_id):
+    tournament = Tournament.objects.get(id=tournament_id)
+    team = Team.objects.get(id=team_id)
+    for player in Player.objects.filter(team_id = team):
+        if PlayerTournament.objects.filter(tournament_id=tournament, player_id = player).count()==0:
+            PlayerTournament.objects.create(player_id=player, tournament_id=tournament, acceptedbymanager=False, acceptedbycoach=True)
+    return redirect('enterForTournament', tournament_id = tournament.id, user_id = team.coach.user_id.id)
