@@ -7,15 +7,27 @@
   </div>
   <div class="panel-body">
     <br/>
-    {% if request.session.user == manager.user_id.id%}
     <div class="container-fluid">
-	   <ul class="nav navbar-nav">
+      {% if request.session.user == manager.user_id.id%}
+	  <ul class="nav navbar-nav">
 	   		<li>
 				<a href="{% url 'addPlayersToTournament' tournament.id %}">Dodaj zawodników</a>
 			</li>
 	  </ul>
-	</div>	
-    {% endif %}
+	  <ul class="nav navbar-nav">
+	   		<li>
+				<a href="{% url 'updateTournament' tournament.id %}">Edytuj turniej</a>
+			</li>
+	  </ul>
+	  {% endif %}
+	  {% if request.session.user and request.session.user != manager.user_id.id %}
+	  <ul class="nav navbar-nav">
+	   		<li>
+				<a href="{% url 'enterForTournament' tournament.id request.session.user%}">Zgłoś zawodników</a>
+			</li>
+	  </ul>
+	  {% endif %}
+	</div>
     <table class="table table-hover">
 		<tr>
 			<th>Zawodnik</th>

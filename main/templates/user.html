@@ -98,5 +98,20 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Zgłoszenia zawodników do Twoich turniejów</div>
+                <div class="panel-body">
+                    <ul>
+                        {% for EplayerT in EplayersT %}
+                        <li>Zawodnik {{ EplayerT.player_id.name }} {{ EplayerT.player_id.surname }} ({{ EplayerT.player_id.team_id.name }}) zgłoszony do {{ EplayerT.tournament_id.name }} <a href="{% url 'playerToTournamentAccept' EplayerT.id %}"> Akceptuj </a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="panel-footer"><a href="#" class="btn btn-default">Przeglądaj wszystkie</a></div>
+            </div>
+        </div>
+	</div>
 </div>
 {% endblock %}

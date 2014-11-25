@@ -102,8 +102,14 @@ def playerToAdd(request, player_id, tournament_id):
     p=PlayerTournament.objects.create(player_id=player, tournament_id=tournament, acceptedbymanager=True, acceptedbycoach=False)
     return redirect('addPlayersToTournament', tournament_id = tournament.id)
 
+def enterPlayerTour(request, player_id, tournament_id):
+    player = Player.objects.get(id=player_id)
+    tournament = Tournament.objects.get(id=tournament_id)
+    p=PlayerTournament.objects.create(player_id=player, tournament_id=tournament, acceptedbymanager=False, acceptedbycoach=True)
+    return redirect('enterForTournament', tournament_id = tournament.id, user_id = player.team_id.coach.user_id.id)
+
 def playerToTournamentAccept(request, playerT_id):
-    PlayerTournament.objects.filter(id=playerT_id).update(acceptedbycoach = True)
+    PlayerTournament.objects.filter(id=playerT_id).update(acceptedbymanager=True, acceptedbycoach = True)
     p = PlayerTournament.objects.get(id=playerT_id)
     p.tournament_id.coaches.add(Coach.objects.get(id = Team.objects.get(id= p.player_id.team_id.id).coach.id))
     return redirect('/user/')

@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response, redirect
 from django.core.urlresolvers import reverse
 
 from main.forms import *
+from karatekyokushin.forms import *
 # Create your views here.
 def home(request):
     tournaments = Tournament.objects.all()
@@ -84,13 +85,17 @@ def user(request):
         if Manager.objects.filter(user_id=user.id):
             managers = Manager.objects.filter(user_id = user.id)
             managertournaments = list()
+            EplayersT = list()
             for manager in managers:
-                managertournaments.append(Tournament.objects.get(id=manager.tournament.id))
+                tournament = Tournament.objects.get(id=manager.tournament.id)
+                managertournaments.append(tournament)
+                for EplayerT in PlayerTournament.objects.filter(tournament_id = tournament, acceptedbymanager=False, acceptedbycoach=True):
+                    EplayersT.append(EplayerT)
         else:
             managertournaments = None
+            EplayersT = None
             
-            
-        context = RequestContext(request, {'playersT': playersT, 'ctournaments': coachtournaments, 'mtournaments': managertournaments, 'teams': teams, 'user': user, 'playerteam': playerteam, 'AplayersT': AplayersT })
+        context = RequestContext(request, {'playersT': playersT, 'ctournaments': coachtournaments, 'mtournaments': managertournaments, 'teams': teams, 'user': user, 'playerteam': playerteam, 'AplayersT': AplayersT, 'EplayersT': EplayersT })
         return HttpResponse(template.render(context))
     else: 
         return redirect('/signIn/')
@@ -145,3 +150,44 @@ def userToAdd(request, user_id, team_id):
 def playerToTeamAccept(request, player_id):
     Player.objects.filter(id=player_id).update(acceptedbyplayer = True)
     return redirect('/user/')
+
+def updateTournament(request, tournament_id):
+    if 'user' in request.session:
+        template = loader.get_template('updatetournament.html')
+        tournament = Tournament.objects.get(id = tournament_id)
+        if request.method == 'POST':
+            form = CreateTournamentForm(request.POST, instance=tournament)
+            if form.is_valid():
+                user = User.objects.get(id=request.session['user'])
+                form.save()#instance zawiera zapisany obiekt, takze z jego id
+                return redirect('tournament', tournament_id = tournament.id)
+        else:
+           form = CreateTournamentForm()
+
+        context = RequestContext(request, {
+            'form': form,
+        })
+        return HttpResponse(template.render(context))
+    else: 
+        return redirect('/signIn/')
+    
+def enterForTournament(request, tournament_id, user_id):
+    if 'user' in request.session:
+        template = loader.get_template('enterForTournament.html')
+        tournament = Tournament.objects.get(id=tournament_id)
+        user = User.objects.get(id=user_id)
+        coaches = Coach.objects.filter(user_id=user)
+        players = list()
+        for coach in coaches:
+            playersC = Player.objects.filter(team_id = Team.objects.get(coach = coach), acceptedbycoachteam=True, acceptedbyplayer=True)
+            for playerC in playersC:
+                players.append(playerC)
+        for playerT in PlayerTournament.objects.filter(tournament_id=tournament):
+            if players.count(playerT.player_id)>0:
+                players.remove(playerT.player_id)
+                print players
+        context = RequestContext(request, {'tournament': tournament, 'players':players })
+        return HttpResponse(template.render(context))
+    else: 
+        return redirect('/signIn/')
+    
