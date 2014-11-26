@@ -28,30 +28,40 @@
 	  </ul>
 	  {% endif %}
 	</div>
-    <table class="table table-hover">
-		<tr>
-			<th>Zawodnik</th>
-			<th>Drużyna</th>
-		</tr>
-		<br>
-		{% for player in players %}
-		<tr>
-		    <td>
-		          <a href="{% url 'player' player.id %}"> {{ player.name }} {{ player.surname }} </a>
-		          	{% if request.session.user == manager.user_id.id%}
-		          		<a href="{% url 'deletePlayerTour' player.id tournament.id%}"> - </a>
-		          	{% endif %}
-		    </td>
-		    <td>
-		         {% for team in teams %}
-		         	{% if team.id = player.team_id %}
-		         		<a href="{% url 'team' team.id %}"> {{ team.name }} </a>
-		         	{% endif %}
-		         {% endfor %}
-		    </td>
-		</tr>
-		{% endfor %}
+	<div class="col-md-8">
+	    <table class="table table-hover">
+			<tr>
+				<th>Zawodnik</th>
+				<th>Drużyna</th>
+			</tr>
+			<br>
+			{% for player in players %}
+			<tr>
+			    <td>
+			          <a href="{% url 'player' player.id %}"> {{ player.name }} {{ player.surname }} </a>
+			          	{% if request.session.user == manager.user_id.id%}
+			          		<a href="{% url 'deletePlayerTour' player.id tournament.id%}"> - </a>
+			          	{% endif %}
+			    </td>
+			    <td>
+			         {% for team in teams %}
+			         	{% if team.id = player.team_id %}
+			         		<a href="{% url 'team' team.id %}"> {{ team.name }} </a>
+			         	{% endif %}
+			         {% endfor %}
+			    </td>
+			</tr>
+			{% endfor %}
 		</table>
+	</div>
+	<div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Wybierz katgorię aby kontynuować</div>
+            <div class="panel-body">
+                    
+            </div>
+    	</div>
+	</div>
   </div>
 </div>
 {% endblock %}

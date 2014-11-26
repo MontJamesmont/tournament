@@ -68,6 +68,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'main',
     'karatekyokushin',
+    'karateshotokan',
 )
 
 ROOT_URLCONF = 'tournament.urls'

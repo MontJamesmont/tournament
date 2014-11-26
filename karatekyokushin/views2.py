@@ -9,7 +9,7 @@ from karatekyokushin.forms import *
 # Create your views here.
 
 def KarateKyokushinMain(request):
-    template = loader.get_template('main.html')
+    template = loader.get_template('kyokushin-main.html')
 #    latest_seasons = Season.objects.order_by('-id')[:10]
 #    latest_rounds = Round.objects.order_by('-id')[:10]
 #    latest_matchday = Matchday.objects.order_by('-id')[:10]

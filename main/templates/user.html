@@ -94,7 +94,7 @@
                     	{% endfor%}
                     </ul>
                 </div>
-                <div class="panel-footer"><a href="#" class="btn btn-default">Przeglądaj wszystkie</a></div>
+                <div class="panel-footer"><a href="{% url 'allPlayersTourAcceptByC' %}" class="btn btn-default">Akceptuj wszystkie</a></div>
             </div>
         </div>
     </div>
@@ -103,13 +103,16 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">Zgłoszenia zawodników do Twoich turniejów</div>
                 <div class="panel-body">
-                    <ul>
-                        {% for EplayerT in EplayersT %}
-                        <li>Zawodnik {{ EplayerT.player_id.name }} {{ EplayerT.player_id.surname }} ({{ EplayerT.player_id.team_id.name }}) zgłoszony do {{ EplayerT.tournament_id.name }} <a href="{% url 'playerToTournamentAccept' EplayerT.id %}"> Akceptuj </a></li>
-                        {% endfor %}
-                    </ul>
+                    <table class="table table-hover table-condensed">
+						<br>
+						{% for EplayerT in EplayersT %}
+						<tr>
+							<td class="col-md-3" align="center"><a href="{% url 'allTeamTourAcceptByM' EplayerT.player_id.team_id.id %}"> Akceptuj dużynę {{ EplayerT.player_id.team_id.name }} </a></td><td class="col-md-3">Zawodnik {{ EplayerT.player_id.name }} {{ EplayerT.player_id.surname }} zgłoszony do {{ EplayerT.tournament_id.name }}</td> <td class="col-md-3" align="center"><a href="{% url 'playerToTournamentAccept' EplayerT.id %}"> Akceptuj zawodnika</a></td>
+						</tr>
+						{% endfor %}
+					</table>
                 </div>
-                <div class="panel-footer"><a href="#" class="btn btn-default">Przeglądaj wszystkie</a></div>
+                <div class="panel-footer"><a href="{% url 'allPlayersTourAcceptByM' %}" class="btn btn-default">Akceptuj wszystkie</a></div>
             </div>
         </div>
 	</div>

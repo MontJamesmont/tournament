@@ -3,6 +3,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from main import views
 from karatekyokushin import views2
+from karateshotokan import views3
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -13,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.home, name='home'),
     url(r'^karatekyokushin/', views2.KarateKyokushinMain, name='KarateKyokushinMain'),
+    url(r'^karateshotokan/', views3.KarateShotokanMain, name='KarateShotokanMain'),
     url(r'^create/', views2.KarateKyokushinCreate, name='KarateKyokushinCreate'),
     url(r'^createTeam/', views.createTeam, name='CreateTeam'),
     url(r'^signUp/', views.signUp, name='signUp'),
@@ -32,6 +34,9 @@ urlpatterns = patterns('',
     url(r'^enterForTournament/(?P<tournament_id>\d+)/ /(?P<user_id>\d+)/', views.enterForTournament, name='enterForTournament'),
     url(r'^playerToTeamAccept/(?P<player_id>\d+)/', views.playerToTeamAccept, name='playerToTeamAccept'),
     url(r'^playerToTournamentAccept/(?P<playerT_id>\d+)/', views2.playerToTournamentAccept, name='playerToTournamentAccept'),
+    url(r'^allPlayersTourAcceptByC/', views.allPlayersTourAcceptByC, name='allPlayersTourAcceptByC'),
+    url(r'^allPlayersTourAcceptByM/', views.allPlayersTourAcceptByM, name='allPlayersTourAcceptByM'),
+    url(r'^allTeamTourAcceptByM/(?P<team_id>\d+)/', views.allTeamTourAcceptByM, name='allTeamTourAcceptByM'),
     url(r'^user/', views.user, name='user'),
     url(r'^player/(?P<player_id>\d+)/', views2.player, name='player'),
 )
