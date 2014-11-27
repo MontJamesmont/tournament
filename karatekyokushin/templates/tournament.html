@@ -45,7 +45,7 @@
 			    </td>
 			    <td>
 			         {% for team in teams %}
-			         	{% if team.id = player.team_id %}
+			         	{% if team.id = player.team_id.id %}
 			         		<a href="{% url 'team' team.id %}"> {{ team.name }} </a>
 			         	{% endif %}
 			         {% endfor %}
@@ -54,14 +54,32 @@
 			{% endfor %}
 		</table>
 	</div>
+	{% if tournament.type %}
 	<div class="col-md-4">
-        <div class="panel panel-primary">
-            <div class="panel-heading">Wybierz katgorię aby kontynuować</div>
-            <div class="panel-body">
-                    
-            </div>
-    	</div>
+	   <div class="panel panel-primary">
+	        <div class="panel-heading">Wciścij kontynuuj aby przejść do strony ogranizacji turnieju</div>
+	        <div class="panel-body">
+	        	<a href="{% url 'tournamentOrganization' tournament.id%}" class="btn btn-default">Kontynuuj</a> 
+	    	</div>
+	    </div>
 	</div>
+	{% else %}
+		{% if request.session.user == manager.user_id.id %}
+		<div class="col-md-4">
+	        <div class="panel panel-primary">
+	        	<div class="panel-heading">Wybierz sztukę walki aby móc przejść do strony ogranizacji turnieju</div>
+	            <div class="panel-body">
+	            	<form method="post" action="">
+					{% csrf_token %}
+						{{ form.type }}
+						<input type="submit" class="btn btn-default btn-primary" value="Zatwierdź">
+	                	<a href="/" class="btn btn-default">Anuluj</a>
+					</form>  
+	            </div>
+	    	</div>
+		</div>
+		{% endif %}
+	{% endif %}
   </div>
 </div>
 {% endblock %}

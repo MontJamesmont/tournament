@@ -49,7 +49,8 @@ class Tournament(models.Model):
     )
     type = models.CharField(max_length=3,
                                       choices=TYPE_CHOICES,
-                                      default=None)
+                                      default=None,
+                                      null=True)
     coaches = models.ManyToManyField(Coach, verbose_name="lista trenerow", blank=True)
 
     def __unicode__(self):

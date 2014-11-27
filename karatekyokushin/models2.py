@@ -6,7 +6,7 @@ from main.models1 import *
 
 class Category(models.Model):
     name=models.CharField(max_length=50)
-    tournament_id = models.ForeignKey(Tournament)
+    tournament_id = models.ForeignKey(Tournament, null = True)
     playerT_id = models.ManyToManyField(PlayerTournament, blank=True)
     
     KATA = 'KT'
@@ -31,7 +31,7 @@ class SecondPlayer(models.Model):
 class Fight(models.Model):
     category_id = models.ForeignKey(Category)
     firstplayer = models.ForeignKey(FirstPlayer)
-    secondplayer = models.ForeignKey(SecondPlayer)
+    secondplayer = models.ForeignKey(SecondPlayer, null=True)
     winner = models.IntegerField(null=True)
     TYPE_CHOICES2 = (
         ('knock', 'knockout'),
@@ -42,7 +42,7 @@ class Fight(models.Model):
     reason = models.CharField(max_length=5,
                                       choices=TYPE_CHOICES2,
                                       default='arbiters')
-    arbitersfor = models.IntegerField()
-    arbitersagainst = models.IntegerField()
-    arbitersdraw = models.IntegerField()
+    arbitersfor = models.IntegerField(null=True)
+    arbitersagainst = models.IntegerField(null=True)
+    arbitersdraw = models.IntegerField(null=True)
     round = models.IntegerField()
